@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -67,7 +68,28 @@ Route::get('/login', function () {
     return view('login');
 })->name('students.login');
 
-Route::post('/students/dashboard', function () {
+
+Route::put('/students/{id}', function ($id, Request $request) {
+    $data = $request->validate([
+        'name' => 'required',
+        'city' => 'required',
+        'email' => 'required',
+        'password' => 'required'
+    ]);
+
+    $student = new Student();
+    $student->name = $data['name'];
+    $student->city = $data['city'];
+    $student->email = $data['email'];
+    $student->password = $data['password'];
+    $student->save();
+
+    return redirect()->route('students.edit', ['id' => $student->id])
+        ->with('success', 'User updated successfully!');
+})->name('students.edit');
+
+
+Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('students.dashboard');
 
@@ -75,5 +97,19 @@ Route::get('/logout', function () {
     return view('logout');
 })->name('students.logout');
 
+Route::get('/logout', function () {
+    return view('logout');
+})->name('students.logout');
 
-Route::get('/post',[view::class, 'view']);
+Route::post('/login', [LoginController::class, 'login'])->name('students.login');
+
+Route::get('/delete/{id}', [LoginController::class, 'delete'])->name('students.delete');
+
+
+Route::get('/view', [LoginController::class, 'view'])->name('students.view');
+
+Route::get('/edit/{id}', [LoginController::class, 'edit'])->name('students.edit');
+Route::put('/update/{id}', [LoginController::class, 'update'])->name('students.update');
+
+
+Route::get('/logout', [LoginController::class, 'logout'])->name('students.logout');

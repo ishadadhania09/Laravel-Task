@@ -53,7 +53,7 @@
   </style>
 @endsection
 
-<form action="{{route('students.login')}}" method="POST">
+<form action="" method="POST">
   
     @csrf
     <div class="container">
@@ -61,8 +61,7 @@
         
           <div class="form-group">
             <label for="logout">Logout</label>
-            <button><a href=""></a>Logout</button>
-            
+            <button><a href=""></a>Logout</button>  
           </div>
       
         </form>

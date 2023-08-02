@@ -98,9 +98,9 @@
   </header>
   <div class="right-navbar">
       <ul>
-        <li><a href="">Add User</a></li>
-        <li><a href="">List User</a></li>
-        <li><a href="">Logout</a></li>
+        <li><a href="{{route('students.create')}}">Add User</a></li>
+        <li><a href="{{route('students.view')}}">List User</a></li>
+        <li><a href="{{route('students.login')}}">Logout</a></li>
       </ul>
     </div>
   <nav>
@@ -120,6 +120,6 @@
     
    
   </nav>
-
+<h3>{{session('name')}}</h3>
 </body>
 </html>

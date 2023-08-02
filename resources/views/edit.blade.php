@@ -1,3 +1,4 @@
+
 @extends('layout.app')
 @section('title','add task')
 @section('content')
@@ -49,39 +50,39 @@
     .form-group input[type="submit"]:hover {
       background-color: #6c4caf;
     }
-    .error-message {
-      color: red;
-      font-size: 0.8rem;
-    }
+
   </style>
 @endsection
 
-<form action="{{route('students.login')}}" method="POST">
+
+<form action="{{route('students.update',$student->id)}}" method="POST">
   
     @csrf
+    @method('PUT')
     <div class="container">
-    <h1>Login</h1>
+    <h1>Edit Student</h1>
     <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="text" name="email" required><br><br>
-        @error('email')
-        <p class="error-message">{{ 'Please fill the details.' }}</p>
-      @enderror
+      <label for="name">Name</label>
+      <input type="text" name = "name" id="name" value="{{ $student->name }}">
     </div>
     <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" name="password" required><br><br>
-        @error('email')
-        <p class="error-message">{{ 'Please fill the details.' }}</p>
-      @enderror
+      <label for="city">City</label>
+      <input type="text" name = "city" id="city" value="{{ $student->city }}">
     </div>
     <div class="form-group">
-    <input type="submit" name="login" value="Login">
+      <label for="email">Email</label>
+      <input type="text" name = "email" id="email" value="{{ $student->email }}">
+  </div>
+    <div class="form-group">
+      <label for="name">Password</label>
+      <input type="text" name = "password" id="password" value="{{ $student->password }}">
+    </div>
+    <div class="form-group">
+    <input type="submit" name="edit" value="Edit">
     </div>     
 
-      <label>Don't have an account?<a href="{{route('students.create')}}">Sign Up</a></label>
+    
  
     </div>
 </form>
 @endsection
-
