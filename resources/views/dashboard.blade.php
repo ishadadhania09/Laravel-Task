@@ -105,9 +105,9 @@
     </div>
   <nav>
     <ul>
-      <li><a href="">View Subject</a></li>
-      <li><a href="">View Chapter</a></li>
-      <li><a href="">View Standard</a></li>
+      <li><a href="{{route('subject.view')}}">View Subject</a></li>
+      <li><a href="{{route('chapter.show')}}">View Chapter</a></li>
+      <li><a href="{{route('standard.view')}}">View Standard</a></li>
       <li class="dropdown">
         <a href="#">Assignment Operation</a>
         <div class="dropdown-content">

@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\ChapterController;
+use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\StandardController;
+use App\Models\Chapter;
+use App\Models\Standard;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -113,3 +118,52 @@ Route::put('/update/{id}', [LoginController::class, 'update'])->name('students.u
 
 
 Route::get('/logout', [LoginController::class, 'logout'])->name('students.logout');
+
+
+
+Route::get('/chapter/store', [ChapterController::class, 'store'])->name('chapter.store');
+
+Route::post('/chapter/store', [ChapterController::class, 'store'])->name('chapter.store');
+
+Route::get('/chapter/show', [ChapterController::class, 'show'])->name('chapter.show');
+
+Route::put('/chapter/edit/{id}', [ChapterController::class, 'update'])->name('chapter.update');
+
+Route::get('/chapter/edit/{id}', [ChapterController::class, 'edit'])->name('chapter.edit');
+
+Route::get('/chapter/display/{id}', [ChapterController::class, 'display'])->name('chapter.display');
+
+
+Route::delete('/chapter/delete/{id}', [ChapterController::class, 'delete'])->name('chapter.delete');
+
+
+
+Route::post('/standard/store', [StandardController::class, 'store'])->name('standard.store');
+
+Route::get('/standard/view', [StandardController::class, 'show'])->name('standard.view');
+
+Route::put('/standard/edit/{id}', [StandardController::class, 'update'])->name('standard.update');
+
+Route::get('/standard/edit/{id}', [StandardController::class, 'edit'])->name('standard.edit');
+
+Route::get('/standard/display/{id}', [StandardController::class, 'display'])->name('standard.display');
+
+Route::delete('/standard/delete/{id}', [StandardController::class, 'delete'])->name('standard.delete');
+
+
+
+
+
+Route::post('/subject/store', [SubjectController::class, 'store'])->name('subject.store');
+
+Route::get('/subject/show', [SubjectController::class, 'show'])->name('subject.view');
+
+Route::put('/subject/edit/{id}', [SubjectController::class, 'update'])->name('subject.update');
+
+Route::get('/subject/edit/{id}', [SubjectController::class, 'edit'])->name('subject.edit');
+
+Route::get('/subject/display/{id}', [SubjectController::class, 'display'])->name('subject.display');
+
+Route::delete('/subject/delete/{id}', [SubjectController::class, 'delete'])->name('subject.delete');
+
+
