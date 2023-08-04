@@ -5,7 +5,7 @@
   <div>
     
     {{-- @if (count($tasks)) --}}
-    @forelse ($tasks as $task)
+    @forelse ($student as $stud)
       <div>
         <a href="{{ route('students.show', ['id' => $student->id]) }}">{{$student->id ." ". $student->name }}</a>
       </div>
@@ -13,7 +13,7 @@
       <div>There are no students!</div>
     @endforelse
   
-    @if ($tasks->count())
+    @if ($student->count())
     <nav class="mt-4">
       {{ $student->links() }}
     </nav>

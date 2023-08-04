@@ -4,6 +4,8 @@ use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\StandardController;
+use App\Http\Controllers\AssignChapterController;
+use App\Http\Controllers\AssignSubjectController;
 use App\Models\Chapter;
 use App\Models\Standard;
 use App\Models\Student;
@@ -49,6 +51,7 @@ Route::post('/students', function (Request $request) {
     $data = $request->validate([
         'name' => 'required',
         'city' => 'required',
+        'accesstype' => 'required',
         'email' => 'required',
         'password' => 'required'
     ]);
@@ -56,12 +59,14 @@ Route::post('/students', function (Request $request) {
     $student = new Student();
     $student->name = $data['name'];
     $student->city = $data['city'];
+    $student->accesstype = $data['accesstype'];
     $student->email = $data['email'];
     $student->password = $data['password'];
     $student->save();
     echo("Latttest detail");
     echo("Name".$data['name']);
     echo("City ".$data['city']);
+    echo("AccessType ".$data['accesstype']);
     echo("Email ".$data['email']);
     echo("Password ".$data['password']);
 
@@ -78,6 +83,7 @@ Route::put('/students/{id}', function ($id, Request $request) {
     $data = $request->validate([
         'name' => 'required',
         'city' => 'required',
+        'accesstype' => 'required',
         'email' => 'required',
         'password' => 'required'
     ]);
@@ -85,6 +91,7 @@ Route::put('/students/{id}', function ($id, Request $request) {
     $student = new Student();
     $student->name = $data['name'];
     $student->city = $data['city'];
+    $student->accesstype = $data['accesstype'];
     $student->email = $data['email'];
     $student->password = $data['password'];
     $student->save();
@@ -98,15 +105,10 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('students.dashboard');
 
-Route::get('/logout', function () {
-    return view('logout');
-})->name('students.logout');
 
-Route::get('/logout', function () {
-    return view('logout');
-})->name('students.logout');
 
-Route::post('/login', [LoginController::class, 'login'])->name('students.login');
+
+Route::get('/login', [LoginController::class, 'login'])->name('students.login');
 
 Route::get('/delete/{id}', [LoginController::class, 'delete'])->name('students.delete');
 
@@ -119,7 +121,7 @@ Route::put('/update/{id}', [LoginController::class, 'update'])->name('students.u
 
 Route::get('/logout', [LoginController::class, 'logout'])->name('students.logout');
 
-
+//chapter
 
 Route::get('/chapter/store', [ChapterController::class, 'store'])->name('chapter.store');
 
@@ -136,7 +138,7 @@ Route::get('/chapter/display/{id}', [ChapterController::class, 'display'])->name
 
 Route::delete('/chapter/delete/{id}', [ChapterController::class, 'delete'])->name('chapter.delete');
 
-
+//standard
 
 Route::post('/standard/store', [StandardController::class, 'store'])->name('standard.store');
 
@@ -152,7 +154,7 @@ Route::delete('/standard/delete/{id}', [StandardController::class, 'delete'])->n
 
 
 
-
+//subject
 
 Route::post('/subject/store', [SubjectController::class, 'store'])->name('subject.store');
 
@@ -166,4 +168,12 @@ Route::get('/subject/display/{id}', [SubjectController::class, 'display'])->name
 
 Route::delete('/subject/delete/{id}', [SubjectController::class, 'delete'])->name('subject.delete');
 
+//assign chapter to subject
+Route::get('/assign_chapter', [AssignChapterController::class, 'view'])->name('assign_chapter.view');
 
+Route::post('/assign_chapter', [AssignChapterController::class, 'assign'])->name('assign_chapter.store');
+
+//assign subject to standard
+Route::get('/assign_subject', [AssignSubjectController::class, 'view'])->name('assign_subject.view');
+
+Route::post('/assign_subject', [AssignSubjectController::class, 'assign'])->name('assign_subject.store');

@@ -9,4 +9,10 @@ class Chapter extends Model
 {
     use HasFactory;
     protected $fillable = ['chapter'];
+
+
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'assign_chapter');
+    }
 }

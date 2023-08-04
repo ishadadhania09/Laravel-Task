@@ -39,7 +39,7 @@ class LoginController extends Controller
     {
         $email = $request->input('email');
         $password = $request->input('password');
-       
+        $student1 = $request->all();
         // Use Eloquent to fetch the user based on the provided credentials
         $student = Student::where('email', $email)
                     ->where('password', $password)
@@ -48,12 +48,12 @@ class LoginController extends Controller
 
         if ($student) {
             // If the user is found, store user data in the session
-            // session(['id' => $student->id]);
-            // session(['name' => $student->name]);
-            // session(['city' => $student->city]);
-            // session(['email' => $student->email]);
-            // session(['password' => $student->password]);
-            Session::put('student',$student);
+            session(['id' => $student->id]);
+            session(['name' => $student->name]);
+            session(['city' => $student->city]);
+            session(['email' => $student->email]);
+            session(['password' => $student->password]);
+            // Session::put('student1',$student1);
 
     
             return redirect()->route('students.dashboard');
@@ -69,7 +69,7 @@ class LoginController extends Controller
         Session::forget('student');
 
         // Redirect the user to the login page
-        return redirect()->route('students.logout');
+        return view('login');
     }
 
     public function delete(Request $request,$id)

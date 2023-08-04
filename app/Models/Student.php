@@ -10,4 +10,9 @@ class Student extends Model
 {
     use HasFactory;
     protected $fillable = ['name', 'city','email','password']; 
+
+    public function standards()
+    {
+        return $this->belongsToMany(Subject::class, 'assign_student');
+    }
 }

@@ -1,62 +1,69 @@
-@extends('layout.app')
+{{-- @extends('layout.app')
 @section('title','add task')
 @section('content')
-@section('styles')
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      
-    }
+@section('styles') --}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    
+  }
 
-    .container {
-      max-width: 400px;
-      margin: auto auto;
-      margin-top: 100px;
-      padding: 50px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #f2f2f2;
-    }
+  .container {
+    max-width: 400px;
+    margin: auto auto;
+    margin-top: 100px;
+    padding: 50px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+  }
 
-    .container h1 {
-      text-align: center;
-    }
+  .container h1 {
+    text-align: center;
+  }
 
-    .form-group {
-      margin-bottom: 20px;
-    }
+  .form-group {
+    margin-bottom: 20px;
+  }
 
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
-    }
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
 
-    .form-group input {
-      width: 100%;
-      padding: 10px;
-      border-radius: 3px;
-      border: 1px solid #ccc;
-    }
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+  }
 
-    .form-group input[type="submit"] {
-      background-color: #6c4caf;
-      width: 106%;
-      padding: 10px;
-      color: white;
-      cursor: pointer;
-    }
+  .form-group input[type="submit"] {
+    background-color: #6c4caf;
+    width: 106%;
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+  }
 
-    .form-group input[type="submit"]:hover {
-      background-color: #6c4caf;
-    }
-    .error-message {
-      color: red;
-      font-size: 0.8rem;
-    }
-  </style>
-@endsection
-
-<form action="{{route('students.login')}}" method="POST">
+  .form-group input[type="submit"]:hover {
+    background-color: #6c4caf;
+  }
+  .error-message {
+    color: red;
+    font-size: 0.8rem;
+  }
+</style>
+<body>
+  <form action="{{route('students.login')}}" method="POST">
   
     @csrf
     <div class="container">
@@ -82,6 +89,12 @@
       <label>Don't have an account?<a href="{{route('students.create')}}">Sign Up</a></label>
  
     </div>
-</form>
-@endsection
+</form> 
+</body>
+</html>
+
+{{-- @endsection --}}
+
+
+{{-- @endsection --}}
 

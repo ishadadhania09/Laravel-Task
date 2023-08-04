@@ -9,4 +9,14 @@ class Subject extends Model
 {
     use HasFactory;
     protected $fillable = ['subject'];
+
+    public function chapters()
+    {
+        return $this->belongsToMany(Chapter::class, 'assign_chapter');
+    }
+
+    public function standards()
+    {
+        return $this->belongsToMany(Chapter::class, 'assign_subject');
+    }
 }
