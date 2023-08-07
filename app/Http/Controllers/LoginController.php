@@ -51,6 +51,7 @@ class LoginController extends Controller
             session(['id' => $student->id]);
             session(['name' => $student->name]);
             session(['city' => $student->city]);
+            session(['accesstype' => $student->accesstype]);
             session(['email' => $student->email]);
             session(['password' => $student->password]);
             // Session::put('student1',$student1);

@@ -97,9 +97,11 @@
     <h1>Welcome to the Education Portal</h1>
   </header>
   <div class="right-navbar">
+    @if(session('accesstype') == "admin" || session('accesstype') == "teacher")
     <ul>
       <li><a href="{{route('students.create')}}">Add User</a></li>
       <li><a href="{{route('students.view')}}">List User</a></li>
+      @endif
       <li><a href="{{route('students.logout')}}">Logout</a></li>
     </ul>
   </div>
@@ -107,15 +109,17 @@
   <ul>
     <li><a href="{{route('subject.view')}}">View Subject</a></li>
     <li><a href="{{route('chapter.show')}}">View Chapter</a></li>
-    <li><a href="">View Standard</a></li>
+    <li><a href="{{route('standard.view')}}">View Standard</a></li>
+    @if(session('accesstype') == "admin" || session('accesstype') == "teacher")
     <li class="dropdown">
-      <a href="#">Assignment Operation</a>
+      <a href="">Assignment Operation</a>
       <div class="dropdown-content">
         <a href="{{route('assign_chapter.view')}}">Assign Chapters</a>
-        <a href="{{route('assign_subject.view')}}">Assign Subject</a>
-        <a href="">Assign Students</a>
+        <a href="{{route('assign_subject.view')}}">Assign Subjects</a>
+        <a href="{{route('assign_student.view')}}">Assign Students</a>
       </div>
     </li>
+    @endif
   </ul>
   
  

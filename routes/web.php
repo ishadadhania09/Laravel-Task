@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\StandardController;
 use App\Http\Controllers\AssignChapterController;
 use App\Http\Controllers\AssignSubjectController;
+use App\Http\Controllers\AssignStudentController;
 use App\Models\Chapter;
 use App\Models\Standard;
 use App\Models\Student;
@@ -108,7 +109,7 @@ Route::get('/dashboard', function () {
 
 
 
-Route::get('/login', [LoginController::class, 'login'])->name('students.login');
+Route::post('/login', [LoginController::class, 'login'])->name('students.login');
 
 Route::get('/delete/{id}', [LoginController::class, 'delete'])->name('students.delete');
 
@@ -177,3 +178,8 @@ Route::post('/assign_chapter', [AssignChapterController::class, 'assign'])->name
 Route::get('/assign_subject', [AssignSubjectController::class, 'view'])->name('assign_subject.view');
 
 Route::post('/assign_subject', [AssignSubjectController::class, 'assign'])->name('assign_subject.store');
+
+//assign student to standard
+Route::get('/assign_student', [AssignStudentController::class, 'view'])->name('assign_student.view');
+
+Route::post('/assign_student', [AssignStudentController::class, 'assign'])->name('assign_student.store');
