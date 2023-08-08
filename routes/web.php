@@ -10,6 +10,8 @@ use App\Http\Controllers\AssignStudentController;
 use App\Models\Chapter;
 use App\Models\Standard;
 use App\Models\Student;
+use App\Models\student_accesstype;
+use App\Models\accesstype;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,7 +31,8 @@ Route::get('/', function () {
 });
 
 Route::get('/create',function(){
-    return view('create');
+    $accesstype = accesstype::all();
+    return view('create',['accesstype' => $accesstype]);
 })->name('students.create');
 
 Route::get('/students', function () {
@@ -47,33 +50,41 @@ Route::get('/students/{id}', function ($id){
     ]);
 })->name('students.show');
 
+
+
 Route::post('/students', function (Request $request) {
-    // dd($request->all());
     $data = $request->validate([
         'name' => 'required',
         'city' => 'required',
-        'accesstype' => 'required',
+        'accesstype' => 'required', // Make sure 'accesstype' field is correctly named in your form
         'email' => 'required',
         'password' => 'required'
     ]);
 
-    $student = new Student();
-    $student->name = $data['name'];
-    $student->city = $data['city'];
-    $student->accesstype = $data['accesstype'];
-    $student->email = $data['email'];
-    $student->password = $data['password'];
-    $student->save();
-    echo("Latttest detail");
-    echo("Name".$data['name']);
-    echo("City ".$data['city']);
-    echo("AccessType ".$data['accesstype']);
-    echo("Email ".$data['email']);
-    echo("Password ".$data['password']);
+    // Create a new student
+    $student = Student::create([
+        'name' => $data['name'],
+        'city' => $data['city'],
+        'accesstype' => $data['accesstype'],
+        'email' => $data['email'],
+        'password' => $data['password']
+    ]);
+
+    $student_accesstype = new student_accesstype();
+    $student_accesstype->student_id = $student->id;
+    $student_accesstype->accesstype_id = $request->input('accesstype');
+    $student_accesstype->save();
+    
+    
+
+    
+
 
     return redirect()->route('students.show', ['id' => $student->id])
         ->with('success', 'User successfully created!');
 })->name('students.store');
+
+
 
 Route::get('/login', function () {
     return view('login');
@@ -104,6 +115,10 @@ Route::put('/students/{id}', function ($id, Request $request) {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
+
+
+
+
 })->name('students.dashboard');
 
 

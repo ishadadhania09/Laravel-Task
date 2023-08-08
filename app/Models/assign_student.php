@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class assign_student extends Model
 {
     use HasFactory;
-    protected $table = 'assign_standard';
+    protected $table = 'assign_student';
     
 }

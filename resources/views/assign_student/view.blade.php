@@ -14,9 +14,9 @@
         </select><br><br>
 
         <label>Student:</label>
-        <select name="student" required>
-            @foreach ($students as $stud)
-                <option value="{{ $stud->student_id }}">{{ $stud->name }}</option>
+        <select name="students" multiple required>
+            @foreach ($students as $sub)
+                <option value="{{ $sub->student_id }}">{{ $sub->name }}</option>
             @endforeach
         </select><br><br>
 

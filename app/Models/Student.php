@@ -9,10 +9,15 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'city','email','password']; 
+    protected $fillable = ['name', 'city','accesstype','email','password']; 
 
-    public function standards()
+    // public function standards()
+    // {
+    //     return $this->belongsToMany(Student::class, 'assign_student');
+    // }
+
+    public function accesstype()
     {
-        return $this->belongsToMany(Subject::class, 'assign_student');
+        return $this->belongsToMany(accesstype::class, 'student_accesstype');
     }
 }

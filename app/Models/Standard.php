@@ -17,7 +17,7 @@ class Standard extends Model
 
     public function students()
     {
-        return $this->belongsToMany(Subject::class, 'assign_student');
+        return $this->belongsToMany(Student::class, 'assign_student');
     }
 
 

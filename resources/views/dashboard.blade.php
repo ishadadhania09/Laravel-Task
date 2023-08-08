@@ -97,6 +97,7 @@
     <h1>Welcome to the Education Portal</h1>
   </header>
   <div class="right-navbar">
+    
     @if(session('accesstype') == "admin" || session('accesstype') == "teacher")
     <ul>
       <li><a href="{{route('students.create')}}">Add User</a></li>

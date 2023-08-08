@@ -85,10 +85,15 @@
     </div>
     <div class="form-group">
       <label for="accesstype">AccessType:</label>
-      <input type="text" name="accesstype" required><br><br>
+      <select name="accesstype" required>
+        @foreach ($accesstype as $access)
+            <option value="{{ $access->id }}">{{ $access->accesstype }}</option>
+        @endforeach
+      </select>
       @error('accesstype')
       <p class="error-message">{{ 'Please fill the details.' }}</p>
     @enderror
+    
   </div>
     <div class="form-group">
         <label for="email">Email:</label>
