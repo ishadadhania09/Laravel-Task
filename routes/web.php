@@ -14,6 +14,8 @@ use App\Models\student_accesstype;
 use App\Models\accesstype;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,7 +69,8 @@ Route::post('/students', function (Request $request) {
         'city' => $data['city'],
         'accesstype' => $data['accesstype'],
         'email' => $data['email'],
-        'password' => $data['password']
+        // 'password' => $data['password']
+        'password' => Hash::make($request->password)
     ]);
 
     $student_accesstype = new student_accesstype();
@@ -75,7 +78,11 @@ Route::post('/students', function (Request $request) {
     $student_accesstype->accesstype_id = $request->input('accesstype');
     $student_accesstype->save();
     
-    
+    $credentials = $request->only('email', 'password');
+        Auth::attempt($credentials);
+        $request->session()->regenerate();
+        return redirect()->route('students.dashboard')
+        ->withSuccess('You have successfully registered & logged in!');
 
     
 
@@ -87,6 +94,9 @@ Route::post('/students', function (Request $request) {
 
 
 Route::get('/login', function () {
+
+
+    
     return view('login');
 })->name('students.login');
 
@@ -119,7 +129,7 @@ Route::get('/dashboard', function () {
 
 
 
-})->name('students.dashboard');
+})->name('students.dashboard')->middleware('auth');
 
 
 
@@ -139,62 +149,62 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('students.logout
 
 //chapter
 
-Route::get('/chapter/store', [ChapterController::class, 'store'])->name('chapter.store');
+Route::get('/chapter/store', [ChapterController::class, 'store'])->name('chapter.store')->middleware('auth');
 
-Route::post('/chapter/store', [ChapterController::class, 'store'])->name('chapter.store');
+Route::post('/chapter/store', [ChapterController::class, 'store'])->name('chapter.store')->middleware('auth');
 
-Route::get('/chapter/show', [ChapterController::class, 'show'])->name('chapter.show');
+Route::get('/chapter/show', [ChapterController::class, 'show'])->name('chapter.show')->middleware('auth');
 
-Route::put('/chapter/edit/{id}', [ChapterController::class, 'update'])->name('chapter.update');
+Route::put('/chapter/edit/{id}', [ChapterController::class, 'update'])->name('chapter.update')->middleware('auth');
 
-Route::get('/chapter/edit/{id}', [ChapterController::class, 'edit'])->name('chapter.edit');
+Route::get('/chapter/edit/{id}', [ChapterController::class, 'edit'])->name('chapter.edit')->middleware('auth');
 
-Route::get('/chapter/display/{id}', [ChapterController::class, 'display'])->name('chapter.display');
+Route::get('/chapter/display/{id}', [ChapterController::class, 'display'])->name('chapter.display')->middleware('auth');
 
 
-Route::delete('/chapter/delete/{id}', [ChapterController::class, 'delete'])->name('chapter.delete');
+Route::delete('/chapter/delete/{id}', [ChapterController::class, 'delete'])->name('chapter.delete')->middleware('auth');
 
 //standard
 
-Route::post('/standard/store', [StandardController::class, 'store'])->name('standard.store');
+Route::post('/standard/store', [StandardController::class, 'store'])->name('standard.store')->middleware('auth');
 
-Route::get('/standard/view', [StandardController::class, 'show'])->name('standard.view');
+Route::get('/standard/view', [StandardController::class, 'show'])->name('standard.view')->middleware('auth');
 
-Route::put('/standard/edit/{id}', [StandardController::class, 'update'])->name('standard.update');
+Route::put('/standard/edit/{id}', [StandardController::class, 'update'])->name('standard.update')->middleware('auth');
 
-Route::get('/standard/edit/{id}', [StandardController::class, 'edit'])->name('standard.edit');
+Route::get('/standard/edit/{id}', [StandardController::class, 'edit'])->name('standard.edit')->middleware('auth');
 
-Route::get('/standard/display/{id}', [StandardController::class, 'display'])->name('standard.display');
+Route::get('/standard/display/{id}', [StandardController::class, 'display'])->name('standard.display')->middleware('auth');
 
-Route::delete('/standard/delete/{id}', [StandardController::class, 'delete'])->name('standard.delete');
+Route::delete('/standard/delete/{id}', [StandardController::class, 'delete'])->name('standard.delete')->middleware('auth');
 
 
 
 //subject
 
-Route::post('/subject/store', [SubjectController::class, 'store'])->name('subject.store');
+Route::post('/subject/store', [SubjectController::class, 'store'])->name('subject.store')->middleware('auth');
 
-Route::get('/subject/show', [SubjectController::class, 'show'])->name('subject.view');
+Route::get('/subject/show', [SubjectController::class, 'show'])->name('subject.view')->middleware('auth');
 
-Route::put('/subject/edit/{id}', [SubjectController::class, 'update'])->name('subject.update');
+Route::put('/subject/edit/{id}', [SubjectController::class, 'update'])->name('subject.update')->middleware('auth');
 
-Route::get('/subject/edit/{id}', [SubjectController::class, 'edit'])->name('subject.edit');
+Route::get('/subject/edit/{id}', [SubjectController::class, 'edit'])->name('subject.edit')->middleware('auth');
 
-Route::get('/subject/display/{id}', [SubjectController::class, 'display'])->name('subject.display');
+Route::get('/subject/display/{id}', [SubjectController::class, 'display'])->name('subject.display')->middleware('auth');
 
-Route::delete('/subject/delete/{id}', [SubjectController::class, 'delete'])->name('subject.delete');
+Route::delete('/subject/delete/{id}', [SubjectController::class, 'delete'])->name('subject.delete')->middleware('auth');
 
 //assign chapter to subject
-Route::get('/assign_chapter', [AssignChapterController::class, 'view'])->name('assign_chapter.view');
+Route::get('/assign_chapter', [AssignChapterController::class, 'view'])->name('assign_chapter.view')->middleware('auth');
 
-Route::post('/assign_chapter', [AssignChapterController::class, 'assign'])->name('assign_chapter.store');
+Route::post('/assign_chapter', [AssignChapterController::class, 'assign'])->name('assign_chapter.store')->middleware('auth');
 
 //assign subject to standard
-Route::get('/assign_subject', [AssignSubjectController::class, 'view'])->name('assign_subject.view');
+Route::get('/assign_subject', [AssignSubjectController::class, 'view'])->name('assign_subject.view')->middleware('auth');
 
-Route::post('/assign_subject', [AssignSubjectController::class, 'assign'])->name('assign_subject.store');
+Route::post('/assign_subject', [AssignSubjectController::class, 'assign'])->name('assign_subject.store')->middleware('auth');
 
 //assign student to standard
-Route::get('/assign_student', [AssignStudentController::class, 'view'])->name('assign_student.view');
+Route::get('/assign_student', [AssignStudentController::class, 'view'])->name('assign_student.view')->middleware('auth');
 
-Route::post('/assign_student', [AssignStudentController::class, 'assign'])->name('assign_student.store');
+Route::post('/assign_student', [AssignStudentController::class, 'assign'])->name('assign_student.store')->middleware('auth');
