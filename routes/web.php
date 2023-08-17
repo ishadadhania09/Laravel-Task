@@ -54,44 +54,46 @@ Route::get('/students/{id}', function ($id){
 
 
 
-Route::post('/students', function (Request $request) {
-    $data = $request->validate([
-        'name' => 'required',
-        'city' => 'required',
-        'accesstype' => 'required', // Make sure 'accesstype' field is correctly named in your form
-        'email' => 'required',
-        'password' => 'required'
-    ]);
+// Route::post('/students', function (Request $request) {
+//     $data = $request->validate([
+//         'name' => 'required',
+//         'city' => 'required',
+//         'accesstype' => 'required', // Make sure 'accesstype' field is correctly named in your form
+//         'email' => 'required',
+//         'password' => 'required',
+        
+//     ]);
 
-    // Create a new student
-    $student = Student::create([
-        'name' => $data['name'],
-        'city' => $data['city'],
-        'accesstype' => $data['accesstype'],
-        'email' => $data['email'],
-        // 'password' => $data['password']
-        'password' => Hash::make($request->password)
-    ]);
+//     // Create a new student
+//     $student = Student::create([
+//         'name' => $data['name'],
+//         'city' => $data['city'],
+//         'accesstype' => $data['accesstype'],
+//         'email' => $data['email'],
+//         // 'password' => $data['password']
+//         'password' => Hash::make($request->password),
+      
+//     ]);
 
-    $student_accesstype = new student_accesstype();
-    $student_accesstype->student_id = $student->id;
-    $student_accesstype->accesstype_id = $request->input('accesstype');
-    $student_accesstype->save();
+//     $student_accesstype = new student_accesstype();
+//     $student_accesstype->student_id = $student->id;
+//     $student_accesstype->accesstype_id = $request->input('accesstype');
+//     $student_accesstype->save();
     
-    $credentials = $request->only('email', 'password');
-        Auth::attempt($credentials);
-        $request->session()->regenerate();
-        return redirect()->route('students.dashboard')
-        ->withSuccess('You have successfully registered & logged in!');
+//     $credentials = $request->only('email', 'password');
+//         Auth::attempt($credentials);
+//         $request->session()->regenerate();
+//         return redirect()->route('students.dashboard')
+//         ->withSuccess('You have successfully registered & logged in!');
 
     
 
 
-    return redirect()->route('students.show', ['id' => $student->id])
-        ->with('success', 'User successfully created!');
-})->name('students.store');
+//     return redirect()->route('students.show', ['id' => $student->id])
+//         ->with('success', 'User successfully created!');
+// })->name('students.store');
 
-
+Route::post('/create',[LoginController::class, 'create'])->name('students.store');
 
 Route::get('/login', function () {
 
@@ -107,7 +109,8 @@ Route::put('/students/{id}', function ($id, Request $request) {
         'city' => 'required',
         'accesstype' => 'required',
         'email' => 'required',
-        'password' => 'required'
+        'password' => 'required',
+        'image' => 'required'
     ]);
 
     $student = new Student();
@@ -116,6 +119,7 @@ Route::put('/students/{id}', function ($id, Request $request) {
     $student->accesstype = $data['accesstype'];
     $student->email = $data['email'];
     $student->password = $data['password'];
+    $student->image = $data['image'];
     $student->save();
 
     return redirect()->route('students.edit', ['id' => $student->id])
@@ -208,3 +212,11 @@ Route::post('/assign_subject', [AssignSubjectController::class, 'assign'])->name
 Route::get('/assign_student', [AssignStudentController::class, 'view'])->name('assign_student.view')->middleware('auth');
 
 Route::post('/assign_student', [AssignStudentController::class, 'assign'])->name('assign_student.store')->middleware('auth');
+
+Route::get('/image', [LoginController::class,'index'])->name('image.index');
+Route::post('/image', [LoginController::class,'store'])->name('image.store');
+
+Route::post('/upload-image', [LoginController::class, 'uploadImage'])->name('upload.image');
+
+
+Route::post('/send-email', 'EmailController@sendEmail');

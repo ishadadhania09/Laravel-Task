@@ -4,18 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
+use App\Jobs\SendEmail;
+use App\Mail\WelcomeEmail;
 use App\Models\Student;
 use App\Models\student_accesstype;
 use App\Models\accesstype;
-
+// use App\Http\Controllers\Mail;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+
 
 class LoginController extends Controller
 {
-    public function register(Request $request){
+    public function create(Request $request){
 
         $request->validate([
             'name' => 'required',
@@ -32,12 +36,15 @@ class LoginController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
-
+        
+        $useraccess = accesstype::where('id',$request->accesstype)->first();
         $user_access_type = new student_accesstype();
         $user_access_type->student_id = $adddata->id;
-        $user_access_type->accesstype_id = $request->input('access_type');
+        $user_access_type->accesstype_id = $request->input('accesstype');
         $user_access_type->save();
-
+// dd($adddata,$useraccess);
+        // Mail::to($request->email)->send(new WelcomeEmail($adddata,$useraccess));
+        SendEmail::dispatch($adddata,$useraccess);
         return view('login')
         ->with('success', 'Registered Successfully');
     }
@@ -64,75 +71,18 @@ class LoginController extends Controller
         return redirect()->route('students.view');
     }
 
-    // public function login(Request $request)
-    // {
-    //     $email = $request->input('email');
-    //     $password = $request->input('password');
-    //     $student1 = $request->all();
-    //     // Use Eloquent to fetch the user based on the provided credentials
-    //     $student = Student::where('email', $email)
-    //                 ->where('password', $password)
-    //                 ->first();
-
-
-    //     if ($student) {
-    //         // If the user is found, store user data in the session
-    //         session(['id' => $student->id]);
-    //         session(['name' => $student->name]);
-    //         session(['city' => $student->city]);
-    //         session(['accesstype' => $student->accesstype]);
-    //         session(['email' => $student->email]);
-    //         session(['password' => $student->password]);
-    //         // Session::put('student1',$student1);
-    //         $userAccessType = student_accesstype::where('student_id', $student->id)->first();
-
-    //         $accesstype = accesstype::where('accesstype_id', $userAccessType->accesstype_id)->value('accesstype');
-      
-
-    //         session(['accesstype' => $accesstype]);
-    // // dd(session('accesstype'));
-    //         return redirect()->route('students.dashboard');
-    //     } else {
-    //         // Handle login failure
-    //         return redirect()->route('students.login');
-    //     }
-    // }
-
-
+    
     public function login(Request $request)
     {
-        // $email = $request->input('email');
-        // $password = $request->input('password');
-    
-        // // Use Eloquent to fetch the user based on the provided credentials
-        // $student = Student::where('email', $email)
-        //             ->where('password', $password)
-        //             ->first();
-    
-        // if ($student) {
-        //     // If the user is found, store user data in the session
-        //     session(['id' => $student->id]);
-        //     session(['name' => $student->name]);
-        //     session(['city' => $student->city]);
-        //     session(['email' => $student->email]);
-        //     session(['password' => $student->password]);
-    
-        //     // Check if student has an associated accesstype
-        //     $userAccessType = student_accesstype::where('student_id', $student->id)->first();
+
             $val = Student::where('email', $request->email)
             ->first();
-            if ($val) {
-                // $accesstype = accesstype::where('id', $val->accesstype_id)->value('accesstype');
-                // session(['accesstype' => $accesstype]);
+        
+
                 $data = $request->validate([
                     'email' => 'required',
                     'password' => 'required'
                 ]);
-            } else {
-                // Handle case where accesstype is not found
-                session(['accesstype' => null]);
-            }
-
             if(Auth::attempt($data))
         {
             session(['id' => $val->id]);
@@ -142,11 +92,11 @@ class LoginController extends Controller
             session(['password' => $val->password]);
 
 
-            $userAccessType = student_accesstype::where('id', session('id'))->first();
+            $userAccessType = student_accesstype::where('student_id', session('id'))->first();
+// dd($userAccessType);
 
-
-            $accessType = accesstype::where('id', $userAccessType->user_access_id)->value('access_type');
-            session(['access_type' => $accessType]);
+            $accessType = accesstype::where('id', $userAccessType->accesstype_id)->value('accesstype');
+            session(['accesstype' => $accessType]);
     
             return redirect()->route('students.dashboard');
         } else {
@@ -172,5 +122,37 @@ class LoginController extends Controller
        $student->delete();
        return redirect()->route('students.view');
     }
+
+
+    // public function index()
+    // {
+    //     return view('image');
+    // }
+
+    // public function store(Request $request)
+    // {
+    //     $this->validate($request, [
+    //         'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+    //     ]);
+
+    //     $image_path = $request->file('image')->store('image', 'public');
+
+    //     $data = Student::create([
+    //         'image' => $image_path,
+    //     ]);
+
+    //     session()->flash('success', 'Image Upload successfully');
+
+    //     return redirect()->route('image.index');
+    // }
+
+    // public function uploadImage(Request $request)
+    // {
+    //     $image = $request->file('image'); // Assuming 'image' is the input file field name
+
+    //     $path = $image->store('images', 'public'); // 'images' is the directory inside 'storage/app/public'
+
+    //     return 'Image uploaded successfully!';
+    // }
     
 }

@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Student extends Authenticatable
 {
     use HasFactory;
-    protected $fillable = ['name', 'city','accesstype','email','password']; 
+    protected $fillable = ['name', 'city','accesstype','email','password','image']; 
 
     // public function standards()
     // {

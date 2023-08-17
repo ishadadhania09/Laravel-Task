@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('accesstype');
             $table->text('email');
             $table->text('password');
+            
             $table->timestamps();
         });
     }
