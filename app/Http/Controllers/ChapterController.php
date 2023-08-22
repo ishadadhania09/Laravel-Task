@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ChapterStatus;
 use App\Models\Chapter;
 use Illuminate\Http\Request;
+use App\Events\ChapterStatusChange;
+use App\Events\ChapterStatusChanged;
 
 class ChapterController extends Controller
 {
@@ -53,5 +56,30 @@ class ChapterController extends Controller
         $chapter = Chapter::findOrFail($id);
         $chapter->delete();
         return redirect()->route('chapter.show')->with('success', 'Chapter deleted successfully');
+    }
+
+    public function status(Request $request){
+    //    dd($request);
+        $chapter = Chapter::findorfail($request->id);
+        $chapterstatus = Chapter::where('active', $request->id)->first();
+        // dd($chapter);
+        if($chapter->active == true){
+            $chapter->active = false;
+            $chapter->save();
+            event(new ChapterStatus($chapter)); // Dispatch the ChapterStatus event
+
+
+        }
+        else{
+            $chapter->active = true;
+            $chapter->save();
+            event(new ChapterStatus($chapter)); // Dispatch the ChapterStatus event
+
+       
+        }
+        return redirect()->route('chapter.show');
+        // return view('chapters.view', compact('chapter', 'chapterstatus'));
+        
+
     }
 }

@@ -10,7 +10,13 @@
     <p>City: {{ $student['city'] }}</p>
     <p>AccessType: {{ $student['accesstype'] }}</p>
     <p>Email: {{ $student['email'] }}</p>
-    <p>Password: {{ $student['password'] }}</p>
+
+    <form method="POST" action="{{ route('students.store')}}" enctype="multipart/form-data">
+        @csrf
+        <input type="file" name="image">
+        <button type="submit">Upload</button>
+    </form><br>
     <a href="{{route('students.login')}}">Login</a>
+    
 
 @endsection

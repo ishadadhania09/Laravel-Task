@@ -14,10 +14,15 @@
         <tr>
             <th>ID</th>
             <th>Chapter</th>
+            @if(session('accesstype') == "admin" || session('acces_type') == "teacher")
+            <th>Status</th>
+            <th>Change Status</th>
             <th>Edit</th>
             <th>Delete</th>
+            @endif
         </tr>
     </thead>
+    
     @forelse ($chapter as $chap)
     <tr>
         <td>
@@ -26,6 +31,24 @@
         <td>
             {{ $chap->chapter }}
         </td>
+        @if(session('accesstype') == "admin" || session('accesstype') == "teacher")
+        <td>
+            {{ $chap->active ? 'Active' : 'Deactive' }}
+        </td>
+        
+        <td>
+            <form method="post" action="{{ route('chapter.status', ['id' => $chap->id]) }}">
+                @csrf
+                <button type="submit" class="btn">
+                    @if ($chap->active)
+                        Deactivate
+                    @else
+                        Activate
+                    @endif
+                </button>
+            </form>
+        </td>
+        
         <td>
             <button> <a href="{{ route('chapter.edit', $chap->id) }}"> Edit </a> </button>
         </td>
@@ -36,6 +59,8 @@
                 <input type="submit" value="Delete">
             </form>
         </td>
+@endif
+
     </tr>
     <tr>
         @empty

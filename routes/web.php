@@ -7,6 +7,7 @@ use App\Http\Controllers\StandardController;
 use App\Http\Controllers\AssignChapterController;
 use App\Http\Controllers\AssignSubjectController;
 use App\Http\Controllers\AssignStudentController;
+use App\Http\Controllers\ImageController;
 use App\Models\Chapter;
 use App\Models\Standard;
 use App\Models\Student;
@@ -167,7 +168,8 @@ Route::get('/chapter/display/{id}', [ChapterController::class, 'display'])->name
 
 
 Route::delete('/chapter/delete/{id}', [ChapterController::class, 'delete'])->name('chapter.delete')->middleware('auth');
-
+Route::get('/chapter/status/{id}', [ChapterController::class, 'status'])->name('chapter.status')->middleware('auth');
+Route::post('/chapter/status/{id}', [ChapterController::class, 'status'])->name('chapter.status')->middleware('auth');
 //standard
 
 Route::post('/standard/store', [StandardController::class, 'store'])->name('standard.store')->middleware('auth');
@@ -213,10 +215,13 @@ Route::get('/assign_student', [AssignStudentController::class, 'view'])->name('a
 
 Route::post('/assign_student', [AssignStudentController::class, 'assign'])->name('assign_student.store')->middleware('auth');
 
-Route::get('/image', [LoginController::class,'index'])->name('image.index');
-Route::post('/image', [LoginController::class,'store'])->name('image.store');
-
-Route::post('/upload-image', [LoginController::class, 'uploadImage'])->name('upload.image');
-
 
 Route::post('/send-email', 'EmailController@sendEmail');
+
+//image
+
+
+// Route::get('/students', [ImageController::class, 'index'])->name('students.index');
+// Route::get('/students/{id}', [ImageController::class, 'show'])->name('students.show');
+// Route::get('/upload', [ImageController::class, 'create'])->name('students.create');
+// Route::post('/upload', [ImageController::class, 'store'])->name('students.store');

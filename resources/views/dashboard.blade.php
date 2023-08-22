@@ -127,32 +127,7 @@
 </nav>
 {{-- <h3>Welcome, {{ session('student1')['name'] }}</h3> --}}
 <h3>{{session('name')}}</h3>
+
 </body>
 </html>
 
-    {{-- <div class="profile">
-      <a href="{{ route('students.dashboard')}}" style="color: whitesmoke"><h3> {{ session('first_name') }} </h3></a>
-  </div>
-  <div class="menu">
-      @if(session('access_type') == "admin" || session('access_type') == "teacher")
-           <a href="{{ route('students.view') }}">List All Users</a> 
-           <a href="{{ route('students.create') }}">Add User</a> 
-      @endif
-       <a href="{{ route('students.logout') }}">Logout</a> 
-  </div>
-</div>
-</div>
-<div class="navbar">
-   <a href="{{ route('chapter.show') }}">Chapter</a> 
-   <a href="{{ route('subject.view') }}">Subject</a> 
-   <a href="{{ route('standard.view') }}">Standard</a> 
-
-@if(session('access_type') == "admin" || session('access_type') == "teacher")
-<div class="dropdown">
-  <button class="dropbtn">Other Operations
-  <div class="dropdown-content">
-           <a href="{{ route('assign_chapter.view') }}">Assign Chapter to Subject</a> 
-           <a href="{{ route('assign_subject.view') }}">Assign Subject to Standard</a> 
-           <a href="{{ route('assign_student.view') }}">Assign Student to Standard</a> 
-  </div>
-  @endif  --}}

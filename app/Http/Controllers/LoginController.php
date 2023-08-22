@@ -106,6 +106,8 @@ class LoginController extends Controller
     
         }
 
+        
+
 
     public function logout(Request $request)
     {
@@ -154,5 +156,8 @@ class LoginController extends Controller
 
     //     return 'Image uploaded successfully!';
     // }
+
+
+    
     
 }

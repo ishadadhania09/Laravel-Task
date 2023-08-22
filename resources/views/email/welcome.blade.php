@@ -12,7 +12,7 @@
     <p>You have successfully register.<br><br>
     Your role is: {{$useraccess->accesstype}}<br><br>
     Your login mail id: {{$adddata->email}}<br><br>
-    Click here <a href={{route('students.login')}}></a>to login<br><br>
+    <a href="{{ route('students.login') }}">Click here to login</a><br><br>
     Thank you!!</p>
 </body>
 </html>

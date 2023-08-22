@@ -15,8 +15,11 @@
 
         <label>Chapters:</label>
         <select name="chapters[]" multiple required>
+
             @foreach ($chapters as $chap)
+            @if($chap->active)
                 <option value="{{ $chap->id }}">{{ $chap->chapter }}</option>
+            @endif
             @endforeach
         </select><br><br>
 
