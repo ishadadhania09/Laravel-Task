@@ -7,9 +7,10 @@ use App\Http\Requests\LoginRequest;
 use App\Jobs\SendEmail;
 use App\Mail\WelcomeEmail;
 use App\Models\Student;
+use App\Models\Image;
 use App\Models\student_accesstype;
 use App\Models\accesstype;
-// use App\Http\Controllers\Mail;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
@@ -42,6 +43,7 @@ class LoginController extends Controller
         $user_access_type->student_id = $adddata->id;
         $user_access_type->accesstype_id = $request->input('accesstype');
         $user_access_type->save();
+
 // dd($adddata,$useraccess);
         // Mail::to($request->email)->send(new WelcomeEmail($adddata,$useraccess));
         SendEmail::dispatch($adddata,$useraccess);
@@ -65,7 +67,29 @@ class LoginController extends Controller
     }
     public function update(Request $request, $id)
     {
+        // dd($request);
         $user = Student::findOrFail($id);
+        // dd($user);
+        if ($request->hasFile('image')){
+
+            $path = Storage::disk('public')->putFile('uploads', $request->file('image'));
+    
+            if ($user->image) {
+                Storage::delete($user->image->image_path);
+                $user->image->image_path = $path;
+                $user->image->save();
+            } else {
+                $user->image()->save(
+                    Image::create([
+                        'student_id' => $user->id,
+                        'image_path' => $path
+                        ])
+                );
+            }
+            $img = Image::where('student_id',$request->id)->first();
+            session(['image_path' => $img->image_path]);
+        }
+        // dd($user);
         $user->update($request->all());
         $user->save();
         return redirect()->route('students.view');
@@ -90,6 +114,7 @@ class LoginController extends Controller
             session(['city' => $val->city]);
             session(['email' => $val->email]);
             session(['password' => $val->password]);
+            
 
 
             $userAccessType = student_accesstype::where('student_id', session('id'))->first();
@@ -125,39 +150,6 @@ class LoginController extends Controller
        return redirect()->route('students.view');
     }
 
-
-    // public function index()
-    // {
-    //     return view('image');
-    // }
-
-    // public function store(Request $request)
-    // {
-    //     $this->validate($request, [
-    //         'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-    //     ]);
-
-    //     $image_path = $request->file('image')->store('image', 'public');
-
-    //     $data = Student::create([
-    //         'image' => $image_path,
-    //     ]);
-
-    //     session()->flash('success', 'Image Upload successfully');
-
-    //     return redirect()->route('image.index');
-    // }
-
-    // public function uploadImage(Request $request)
-    // {
-    //     $image = $request->file('image'); // Assuming 'image' is the input file field name
-
-    //     $path = $image->store('images', 'public'); // 'images' is the directory inside 'storage/app/public'
-
-    //     return 'Image uploaded successfully!';
-    // }
-
-
-    
+ 
     
 }

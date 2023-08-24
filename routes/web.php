@@ -53,47 +53,6 @@ Route::get('/students/{id}', function ($id){
     ]);
 })->name('students.show');
 
-
-
-// Route::post('/students', function (Request $request) {
-//     $data = $request->validate([
-//         'name' => 'required',
-//         'city' => 'required',
-//         'accesstype' => 'required', // Make sure 'accesstype' field is correctly named in your form
-//         'email' => 'required',
-//         'password' => 'required',
-        
-//     ]);
-
-//     // Create a new student
-//     $student = Student::create([
-//         'name' => $data['name'],
-//         'city' => $data['city'],
-//         'accesstype' => $data['accesstype'],
-//         'email' => $data['email'],
-//         // 'password' => $data['password']
-//         'password' => Hash::make($request->password),
-      
-//     ]);
-
-//     $student_accesstype = new student_accesstype();
-//     $student_accesstype->student_id = $student->id;
-//     $student_accesstype->accesstype_id = $request->input('accesstype');
-//     $student_accesstype->save();
-    
-//     $credentials = $request->only('email', 'password');
-//         Auth::attempt($credentials);
-//         $request->session()->regenerate();
-//         return redirect()->route('students.dashboard')
-//         ->withSuccess('You have successfully registered & logged in!');
-
-    
-
-
-//     return redirect()->route('students.show', ['id' => $student->id])
-//         ->with('success', 'User successfully created!');
-// })->name('students.store');
-
 Route::post('/create',[LoginController::class, 'create'])->name('students.store');
 
 Route::get('/login', function () {
@@ -104,28 +63,54 @@ Route::get('/login', function () {
 })->name('students.login');
 
 
-Route::put('/students/{id}', function ($id, Request $request) {
-    $data = $request->validate([
-        'name' => 'required',
-        'city' => 'required',
-        'accesstype' => 'required',
-        'email' => 'required',
-        'password' => 'required',
-        'image' => 'required'
-    ]);
+// Route::put('/students/{id}', function ($id, Request $request) {
+//     $data = $request->validate([
+//         'name' => 'required',
+//         'city' => 'required',
+//         'accesstype' => 'required',
+//         'email' => 'required',
+//         'password' => 'required',
+        
+//     ]);
 
-    $student = new Student();
-    $student->name = $data['name'];
-    $student->city = $data['city'];
-    $student->accesstype = $data['accesstype'];
-    $student->email = $data['email'];
-    $student->password = $data['password'];
-    $student->image = $data['image'];
-    $student->save();
+//     $student = new Student();
+//     $student->name = $data['name'];
+//     $student->city = $data['city'];
+//     $student->accesstype = $data['accesstype'];
+//     $student->email = $data['email'];
+//     $student->password = $data['password'];
+//     $student->save();
 
-    return redirect()->route('students.edit', ['id' => $student->id])
-        ->with('success', 'User updated successfully!');
-})->name('students.edit');
+//     $userdatas = Student::findOrFail($id);
+//     if ($request->hasFile('image')){
+
+        
+//         $path = Storage::disk('public')->putFile('uploads', $request->file('image'));
+
+//         if ($userdatas->image) {
+//             Storage::delete($userdatas->image->image_path);
+//             $userdatas->image->image_path = $path;
+//             $userdatas->image->save();
+//         } else {
+//             $userdatas->image()->save(
+//                 Image::create([
+//                     'image_path' => $path,
+//                     'student_id' => $request->id
+//                     ])
+//             );
+//         }
+//         $img = Image::where('student_id',$request->id)->first();
+//         session(['image_path' => $img->image_path]);
+//     }
+
+//     $userdatas->update($request->all());
+//     $userdatas->save();
+    
+
+
+//     return redirect()->route('students.edit', ['id' => $student->id])
+//         ->with('success', 'User updated successfully!');
+// })->name('students.edit');
 
 
 Route::get('/dashboard', function () {
@@ -225,3 +210,7 @@ Route::post('/send-email', 'EmailController@sendEmail');
 // Route::get('/students/{id}', [ImageController::class, 'show'])->name('students.show');
 // Route::get('/upload', [ImageController::class, 'create'])->name('students.create');
 // Route::post('/upload', [ImageController::class, 'store'])->name('students.store');
+
+// Route::get('/upload', [ImageController::class, 'upload'])->name('upload.image');
+// Route::post('/upload', [ImageController::class, 'upload'])->name('upload.image');
+

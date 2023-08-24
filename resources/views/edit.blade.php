@@ -55,7 +55,7 @@
 @endsection
 
 
-<form action="{{route('students.update',$student->id)}}" method="POST">
+<form action="{{route('students.update',$student->id)}}" method="POST" enctype="multipart/form-data">
   
     @csrf
     @method('PUT')
@@ -78,7 +78,13 @@
       <input type="text" name = "password" id="password" value="{{ $student->password }}">
     </div>
     <div class="form-group">
-    <input type="submit" name="edit" value="Edit">
+    <label for="name">Profile Picture</label>
+    <input type="file" name="image">
+    
+    </form>
+    </div>
+    <div class="form-group">
+    <input type="submit" value="Edit">
     </div>     
 
     

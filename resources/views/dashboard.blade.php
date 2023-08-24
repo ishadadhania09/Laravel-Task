@@ -14,8 +14,26 @@
       background-color: #333;
       color: #fff;
       padding: 20px;
-      text-align: center;
+      display: flex; /* Use flexbox to align items */
+      align-items: center; /* Vertically align items in the center */
     }
+     
+    header .header-logo {
+            display: inherit;
+            height: 100px;
+            width: 100px;
+        }
+        .header-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        header h1 {
+        text-align: center;
+        margin: 0 auto;
+    }
+
 
     nav {
       background-color: #f2f2f2;
@@ -94,7 +112,12 @@
 </head>
 <body>
   <header>
+  <a href="#" class="header-logo">
+            <img src="{{ 'http://127.0.0.1:8000'.Storage::url(session('image_path')) }}" />
+  </a>
+
     <h1>Welcome to the Education Portal</h1>
+    
   </header>
   <div class="right-navbar">
     
@@ -127,6 +150,9 @@
 </nav>
 {{-- <h3>Welcome, {{ session('student1')['name'] }}</h3> --}}
 <h3>{{session('name')}}</h3>
+
+
+
 
 </body>
 </html>

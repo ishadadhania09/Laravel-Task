@@ -59,17 +59,20 @@ class ChapterController extends Controller
     }
 
     public function status(Request $request){
-    //    dd($request);
         $chapter = Chapter::findorfail($request->id);
         $chapterstatus = Chapter::where('active', $request->id)->first();
-        // dd($chapter);
         if($chapter->active == true){
             $chapter->active = false;
             $chapter->save();
             event(new ChapterStatus($chapter)); // Dispatch the ChapterStatus event
 
 
+
+
+
+            
         }
+
         else{
             $chapter->active = true;
             $chapter->save();
@@ -82,4 +85,9 @@ class ChapterController extends Controller
         
 
     }
+
+
+
+
+
 }

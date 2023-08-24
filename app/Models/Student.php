@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Student extends Authenticatable
 {
     use HasFactory;
-    protected $fillable = ['name', 'city','accesstype','email','password','image']; 
+    protected $fillable = ['name', 'city','accesstype','email','password']; 
 
     // public function standards()
     // {
@@ -20,5 +20,9 @@ class Student extends Authenticatable
     public function accesstype()
     {
         return $this->belongsToMany(accesstype::class, 'student_accesstype');
+    }
+    
+    public function image(){
+        return $this->hasOne(Image::class);
     }
 }
